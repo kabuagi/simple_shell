@@ -39,8 +39,13 @@ ssize_t get_line(char **lineptr, size_t *n, FILE *stream)
                         bytes_read = read(fileno(stream), buffer, sizeof(buffer));
                         if (bytes_read == -1)
                         {
-                                perror("read");
-                                exit(EXIT_FAILURE);
+                                if (errno == EINTR)
+				continue;
+				else
+				{
+					perror("read");
+					return (-1);
+				}
                         }
                         else if (bytes_read == 0)
                         {

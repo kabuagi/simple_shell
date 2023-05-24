@@ -1,10 +1,24 @@
 #include "shell.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
 
 /**
- * execute_command - executes the command
+ * execute_cont - continues the execute fuction
+ * @command:pointer to commands
+ * @args:arguments to commands
+ *
+ */
+
+void execute_cont(const char *command, char *const args[])
+{
+	if (access(command, X_OK) == 0)
+	{
+		execve(command, args, NULL);
+		perror(command);
+		return;
+	}
+}
+
+/**
+ * execute_line - executes the command
  * @command:pointer to the command string
  * @args:arguments to the commands
  *
@@ -16,31 +30,18 @@ void execute_line(const char *command, char *const args[])
 
 	char path_copy[MAX_PATH_LENGTH];
 
-	char *path;
+	char *path, *end, *path_token;
 
-	char *end;
-
-	char *path_token;
-
-	if (access(command, X_OK) == 0)
-	{
-		execve(command, args, NULL);
-		perror(command);
-		return;
-	}
-
+	execute_cont(command, args);
 	path = getenv("PATH");
 	if (path == NULL)
 	{
 		perror("path");
 		return;
 	}
-
 	strncpy(path_copy, path, sizeof(path_copy) - 1);
 	path_copy[sizeof(path_copy) - 1] = '\0';
-
 	path_token = path_copy;
-
 	while (*path_token != '\0')
 	{
 		end = strchr(path_token, ':');
@@ -48,16 +49,13 @@ void execute_line(const char *command, char *const args[])
 		{
 			end = path_token + strlen(path_token);
 		}
-
 		snprintf(abs_path, sizeof(abs_path), "%s/%s", path_token, command);
-
 		if (access(abs_path, X_OK) == 0)
 		{
 			execve(abs_path, args, NULL);
 			perror(abs_path);
 			return;
 		}
-
 		if (*end == '\0')
 		{
 			break;
@@ -65,6 +63,4 @@ void execute_line(const char *command, char *const args[])
 		path_token = end + 1;
 	}
 	printf("%s:command not found\n", command);
-
-
 }

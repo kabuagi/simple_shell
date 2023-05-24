@@ -9,7 +9,7 @@
 void shell_cont(const char *command, char *const args[])
 {
 	int exit_status;
-	
+
 	if (strcmp(command, "env") == 0)
 	{
 		env_var();
@@ -35,6 +35,7 @@ void shell_cont(const char *command, char *const args[])
 
 /**
  * run_shell - run the shell
+ * @args:arguments
  *
  */
 
@@ -84,7 +85,7 @@ void run_shell(char *const args[])
 
 int main(void)
 {
-	char *args[] = {"shell",NULL};
+	char *args[] = {"shell", NULL};
 
 	run_shell(args);
 	return (0);
