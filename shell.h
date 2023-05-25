@@ -9,7 +9,7 @@
 #include <errno.h>
 
 #define MAX_COMMAND_LENGTH 1024
-#define SHELL_PROMPT "shell$ "
+#define SHELL_PROMPT "$ "
 #define MAX_ARGUMENTS 10
 #define MAX_PATH_LENGTH 1024
 extern char **environ;

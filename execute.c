@@ -62,5 +62,8 @@ void execute_line(const char *command, char *const args[])
 		}
 		path_token = end + 1;
 	}
-	printf("%s:command not found\n", command);
+	fprintf(stderr, "%s: not found\n", args[0]);
+	exit(EXIT_FAILURE);
 }
+
+

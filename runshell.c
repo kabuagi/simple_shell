@@ -49,8 +49,7 @@ void run_shell(void)
 		bytes_read = get_line(&command, &len, stdin);
 		if (bytes_read == -1)
 		{
-			perror("read");
-			exit(EXIT_FAILURE);
+			break;
 		}
 		else if (bytes_read == 0)
 		{
@@ -69,6 +68,7 @@ void run_shell(void)
 		free(command);
 		command = NULL;
 	}
+	free(command);
 }
 
 /**
