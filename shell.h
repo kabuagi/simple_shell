@@ -18,6 +18,6 @@ ssize_t get_line(char **lineptr, size_t *n, FILE *stream);
 void execute_line(const char *command, char *const args[]);
 void env_var(void);
 void pid_fork(const char *command);
-void run_shell(char *const args[]);
+void run_shell(void);
 
 #endif

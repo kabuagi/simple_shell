@@ -6,22 +6,16 @@
  * @args:arguments
  */
 
-void shell_cont(const char *command, char *const args[])
+void shell_cont(const char *command)
 {
-	int exit_status;
 
 	if (strcmp(command, "env") == 0)
 	{
 		env_var();
 	}
-	else if (strcmp(command, "exit") == 0 && args[1] == NULL)
+	else if (strcmp(command, "exit") == 0)
 	{
-		exit(EXIT_SUCCESS);
-	}
-	else if (strcmp(command, "exit") == 0 && args[1] != NULL)
-	{
-		exit_status = atoi(args[1]);
-		exit(exit_status);
+		exit(0);
 	}
 	else if (strlen(command) == 0)
 	{
@@ -39,7 +33,7 @@ void shell_cont(const char *command, char *const args[])
  *
  */
 
-void run_shell(char *const args[])
+void run_shell(void)
 {
 	char *command = NULL;
 
@@ -71,7 +65,7 @@ void run_shell(char *const args[])
 		{
 		command[bytes_read] = '\0';
 		}
-		shell_cont(command, args);
+		shell_cont(command);
 		free(command);
 		command = NULL;
 	}
@@ -85,8 +79,6 @@ void run_shell(char *const args[])
 
 int main(void)
 {
-	char *args[] = {"shell", NULL};
-
-	run_shell(args);
+	run_shell();
 	return (0);
 }
