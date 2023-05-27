@@ -41,15 +41,21 @@ void run_shell(void)
 
 	ssize_t bytes_read;
 
+	int interactive = isatty(STDIN_FILENO);
+
 	while (1)
 	{
-		printf(SHELL_PROMPT);
-		fflush(stdout);
+		if (interactive)
+		{
+			printf(SHELL_PROMPT);
+			fflush(stdout);
+		}
 
 		bytes_read = get_line(&command, &len, stdin);
 		if (bytes_read == -1)
 		{
-			break;
+			perror("read");
+			exit (0);
 		}
 		else if (bytes_read == 0)
 		{
@@ -69,6 +75,7 @@ void run_shell(void)
 		command = NULL;
 	}
 	free(command);
+	command = NULL;
 }
 
 /**
